@@ -40,7 +40,6 @@ app.set('view engine', 'ejs');
 
 
 const bookRouter = require('./src/routes/bookRoutes')();
-const adminRouter = require('./src/routes/adminRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
 app.use(methodOverride(function (req) {
   debug(req.body);
@@ -52,7 +51,6 @@ app.use(methodOverride(function (req) {
   }
 }));
 app.use('/books', bookRouter);
-app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
