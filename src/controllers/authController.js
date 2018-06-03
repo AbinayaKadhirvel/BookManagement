@@ -1,5 +1,4 @@
 //const mongoose = require('mongoose');
-const HttpStatus = require('http-status-codes');
 const debug = require('debug')('app:authController');
 const passport = require('passport');
 
