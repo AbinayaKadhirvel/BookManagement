@@ -60,12 +60,15 @@
           <!--/stories-->
           <div class="row">
             <br>
-            <div class="col-md-2 col-sm-3 text-center">
-              Sign Up! Or <a href='/auth/signin'>Sign In</a>
-              <form name="signUpForm" action="/auth/signUp" method="post">
-                Username: <input name="username" id="username"/> <br/>
-                Password: <input name="password" type='password' id="password"/> <br/>
-                <input type="submit" value="Sign Up"/>
+            <div class="col-md-2 col-sm-3 text-center centerpage">
+              <span class='authlinks'></span>Sign In! Or <a href='/auth/signUp'>Sign Up</a>
+              <form class='authform' name="signInForm" action="/auth/signIn" method="post">
+                <span class='authusername'>Username: <input name="username" id="username"/></span><br/><br/>
+                <span class='authpassword'>Password: <input name="password" type='password' id="password"/></span> <br/><br/>
+                <% if (error){%><div class='autherror'>
+                    <% if(error === 'userdoesnotexists') {%>Username or password is incorrect!<%}%>
+                    <% if(error === 'dberror') {%>Error processing your request! Please try again later<% } %></div><%}%>
+                <input type="submit" value="Sign In"/>
               </form>
             </div>
           </div>

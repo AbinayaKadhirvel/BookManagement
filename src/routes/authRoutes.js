@@ -15,37 +15,48 @@ function router() {
   authRouter.route('/signUp')
     .get((req, res) => {
       res.render(
-        'index',
+        'signUp',
         {
           nav: [ { link: '/books', title: 'Books' } ],
           title: 'Library',
+          error: req.query.error,
         }
       );
     })
     .post((req, res) => {
-      const usertocreate = new User(req.body);
-      usertocreate.save((err, useradded) => {
-        if (err) {
-          res.status(500).send(err);
+      query = { username: req.body.username };
+      User.findOne(query, (err, user) => {
+        debug(user);
+        if (user) {
+          res.redirect('/auth/signUp/?error=userexists');
         }
         else {
-          req.login(useradded, () => {
-            res.redirect('/auth/signin');
+          const usertocreate = new User(req.body);
+          usertocreate.save((err, useradded) => {
+            if (err) {
+              res.redirect('/auth/signUp/?error=dberror');
+            }
+            else {
+              req.login(useradded, () => {
+                res.redirect('/');
+              });
+            }
           });
         }
       });
     });
   authRouter.route('/signIn')
     .get((req, res) => {
-      res.render('signin', {
+      res.render('index', {
         nav,
         title: 'Sign In',
+        error: req.query.error,
       });
     })
     .post(
       passport.authenticate('local', {
         successRedirect: '/books',
-        failureRedirect: '/',
+        failureRedirect: '/?error=userdoesnotexists',
       }));
 
   authRouter.route('/profile')

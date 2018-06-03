@@ -53,6 +53,7 @@ app.get('/', (req, res) => {
     {
       nav: [ { link: '/books', title: 'Books' } ],
       title: 'Library',
+      error: req.query.error,
     }
   );
 });

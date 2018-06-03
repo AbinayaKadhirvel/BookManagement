@@ -14,7 +14,17 @@ body {
 h1,h2,h3,.highlight,.navbar a,#masthead h4 {
   font-family:'Oswald',arial narrow,sans-serif;
 }
-
+.centerpage {
+  width: 70%;
+  font-size: 20px;
+}
+.authform {
+  padding: 20px;
+}
+.autherror {
+  color: red;
+  padding-bottom: 20px;
+}
 footer {
 
   margin-top:40px;
