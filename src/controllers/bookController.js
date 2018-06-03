@@ -9,7 +9,6 @@ const nav = [
 ];
 function bookController() {
   function middleware(req, res, next) {
-
     if (req.params.bookId) {
 
       Book.findById(req.params.bookId, (err, book) => {
@@ -31,15 +30,46 @@ function bookController() {
 
   }
   function getIndex(req, res) {
-    Book.find(req.query, (err, books) => {
-      res.render(
-        'bookListView',
-        {
-          nav,
-          title: 'Library',
-          books,
-        }
-      );
+    searchby = req.query.searchby;
+    query = {};
+    querysearchparam = {
+      $regex: req.query.searchterm,
+      $options: 'i',
+    };
+    if (searchby === 'author') {
+      query.author = querysearchparam;
+    }
+    if (searchby === 'title') {
+      query.title = querysearchparam;
+    }
+    if (searchby === 'genre') {
+      query.genre = querysearchparam;
+    }
+    Book.find(query, (err, books) => {
+      debug(books);
+      if (books) {
+        res.render(
+          'bookListView',
+          {
+            nav,
+            title: 'Library',
+            books,
+            noresult: false,
+          }
+
+        );
+      }
+      else {
+        res.render(
+          'bookListView',
+          {
+            nav,
+            title: 'Library',
+            noresult: true,
+          }
+        );
+      }
+
     });
   }
   function getById(req, res) {

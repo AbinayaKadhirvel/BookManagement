@@ -50,8 +50,8 @@ footer {
 
 #masthead .well {
   margin-top:31px;
-  background-color:#111166;
-  border-color:#000022;
+  background-color: #020044;
+  border-color: #020044;
   color:#efefff;
   min-height:127px;
 }
@@ -70,7 +70,12 @@ footer {
   top:0;
   width:100%;
 }
-
+.noresult {
+  font-size: 40px;
+}
+.searchbyselect {
+  margin-top: 10px;
+}
 .top-spacer {
   background-color:#ffffff;
   height:40px;
