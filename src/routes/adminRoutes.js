@@ -1,8 +1,8 @@
 const express = require('express');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-//const db = mongoose.connect('mongodb://localhost/libraryApp');
-//const Book = require('../../models/bookModel.js');
+const db = mongoose.connect('mongodb://localhost/libraryApp');
+const Book = require('../../models/bookModel.js');
 const debug = require('debug')('app:adminRoutes');
 
 const adminRouter = express.Router();
@@ -43,13 +43,15 @@ const books = [ {
 
 function router() {
   adminRouter.route('/')
-    .get(() => {
-      collection.insert(books,  (err, insertedbooks) => {
+    .get((req,res) => {
+      debug(books);
+      Book.collection.insert(books,  (err, insertedbooks) => {
         if (err) {
           debug(err);
         }
         else {
-          debug(insertedbooks.length);
+          
+          res.send('added');
         }
       });
     });

@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 //const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-
+const methodOverride = require('method-override');
 // To create an instance of express
 const app = express();
 const port = process.env.PORT || 3000;
@@ -42,7 +42,15 @@ app.set('view engine', 'ejs');
 const bookRouter = require('./src/routes/bookRoutes')();
 const adminRouter = require('./src/routes/adminRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
-
+app.use(methodOverride(function (req) {
+  debug(req.body);
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    let method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
 app.use('/books', bookRouter);
 app.use('/admin', adminRouter);
 app.use('/auth', authRouter);

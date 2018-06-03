@@ -10,7 +10,6 @@ const nav = [
 function bookController() {
   function middleware(req, res, next) {
     if (req.params.bookId) {
-
       Book.findById(req.params.bookId, (err, book) => {
         if (err) {
           res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
@@ -93,12 +92,19 @@ function bookController() {
     req.book.author = req.body.author;
     req.book.read = req.body.read;
     req.book.genre = req.body.genre;
-    req.book.save((err) => {
+    req.book.save((err, book) => {
       if (err) {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
       }
       else {
-        res.json(req.book);
+        res.render(
+          'bookView',
+          {
+            nav,
+            title: 'Library',
+            book,
+          }
+        );
       }
     });
   }
@@ -120,6 +126,7 @@ function bookController() {
   }
   function deleteBook(req, res) {
     debug(req.book);
+    debug('sdf');
     req.book.remove((err) => {
       if (err) {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);

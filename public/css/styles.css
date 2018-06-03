@@ -20,10 +20,11 @@ h1,h2,h3,.highlight,.navbar a,#masthead h4 {
 }
 .authform {
   padding: 20px;
+  
 }
 .autherror {
-  color: red;
-  padding-bottom: 20px;
+  width: 300px;
+  margin-left: 230px;
 }
 footer {
 
@@ -80,7 +81,26 @@ footer {
   background-color:#ffffff;
   height:40px;
 }
-
+table.editbooktable {
+  border-collapse: collapse;
+}
+.editbookform {
+  display: none;
+}
+.removebook {
+  background-color: #d83f07d6;
+  border-color: #af2e19;
+}
+table.editbooktable td {
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+.savebook {
+  text-align: center;
+}
+.genrelist {
+  width : 33%;
+}
 a,a:hover {
   color:#223344;
   text-decoration:none;
