@@ -64,8 +64,8 @@
               <span class='authlinks'></span>Sign In! Or <a href='/auth/signUp'>Sign Up</a>
               
               <form class='authform' name="signInForm" action="/auth/signIn" method="post">
-                <span class='authusername'>Username: <input name="username" id="username"/></span><br/><br/>
-                <span class='authpassword'>Password: <input name="password" type='password' id="password"/></span> <br/><br/>
+                <span class='authusername'>Username: <input name="username" id="username" required/></span><br/><br/>
+                <span class='authpassword'>Password: <input name="password" type='password' id="password" required/></span> <br/><br/>
                 <% if (error){%><div  class="alert alert-danger autherror">
                     <% if(error === 'userdoesnotexists') {%>Username or password is incorrect!<%}%>
                     <% if(error === 'dberror') {%>Error processing your request! Please try again later<% } %></div><%}%>
