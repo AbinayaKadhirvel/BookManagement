@@ -3,6 +3,10 @@ $(document).ready(function() {
     $('.editbookform').show();
     $('.bookview').hide();
   });
+  $('.addbookbutton').click(function() {
+    $('.addbookform').show();
+    $('.booklistview').hide();
+  });
   $('.removebook').click(function(){
     let bookid = $(this).data('bookid');
     let xhr = new XMLHttpRequest();

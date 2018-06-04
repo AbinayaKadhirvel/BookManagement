@@ -87,6 +87,9 @@ table.editbooktable {
 .editbookform {
   display: none;
 }
+.addbookform {
+  display: none;
+}
 .removebook {
   background-color: #d83f07d6;
   border-color: #af2e19;
@@ -98,14 +101,29 @@ table.editbooktable td {
 .savebook {
   text-align: center;
 }
-.genrelist {
-  width : 33%;
-}
 a,a:hover {
   color:#223344;
   text-decoration:none;
 }
-
+.bookformheader {
+  margin-right: 30px;
+  margin-left: 200px;
+  padding-bottom: 30px;
+}
+.addbookrow {
+  margin-top: 20px;
+}
+.addbookbutton {
+  float: right;
+  color: #140c79;
+  background-color: #eef2f3;
+  border-color: #fbfbfd;
+}
+.bookformsubmit {
+  background-color: #099427;
+  border-color: #095f08;
+  color: #f3f9f3;
+}
 .icon-bar {
   background-color:#fff;
 }

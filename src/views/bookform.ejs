@@ -1,6 +1,6 @@
 <h2 class='bookformheader'><%=formtitle%></h2>
 <form class="form-horizontal bookform" name="bookForm" action="/books/<%=bookid%>" method="post">
-    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="_method" value="<%=formmethod%>">
     <div class="form-group">
         <label class="control-label col-sm-2" for="title">Title:</label>
         <div class="col-sm-2">

@@ -62,6 +62,8 @@ function bookController() {
             title: 'Library',
             books,
             noresult: false,
+            book : {},
+            genrelist
           }
 
         );
@@ -73,6 +75,8 @@ function bookController() {
             nav,
             title: 'Library',
             noresult: true,
+            book : {},
+            genrelist
           }
         );
       }
@@ -153,8 +157,9 @@ function bookController() {
       res.send('Title is required');
     }
     else {
+      newBook.save();
       res.status(HttpStatus.CREATED);
-      res.send(newBook);
+      res.redirect('/books');
     }
   }
   // Revealing Module Pattern

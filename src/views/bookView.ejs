@@ -96,7 +96,8 @@
           <div class='row editbookform'>
               <%- include('bookform', {
                 bookid : book._id,
-                formtitle : 'Edit Book'
+                formtitle : 'Edit Book',
+                formmethod : 'PUT'
               }); %>
           </div>
           <!--/stories-->
