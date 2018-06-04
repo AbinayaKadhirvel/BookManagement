@@ -7,6 +7,14 @@ const Book = require('../../models/bookModel.js');
 const nav = [
   { link: '/books', title: 'Book' },
 ];
+const genrelist = [
+  { name: 'Romance', value: 'Romance' },
+  { name: 'Science Fiction', value: 'Science Fiction' },
+  { name: 'Fantasy', value: 'Fantasy' },
+  { name: 'Historical Fiction', value: 'Historical Fiction' },
+  { name: 'Comic', value: 'Comic' },
+  { name: 'Drama', value: 'Drama' },
+];
 function bookController() {
   function middleware(req, res, next) {
     if (req.params.bookId) {
@@ -80,6 +88,7 @@ function bookController() {
         nav,
         title: 'Library',
         book,
+        genrelist,
       }
     );
   }
@@ -103,6 +112,7 @@ function bookController() {
             nav,
             title: 'Library',
             book,
+            genrelist,
           }
         );
       }
