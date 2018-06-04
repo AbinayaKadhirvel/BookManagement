@@ -62,8 +62,8 @@ function bookController() {
             title: 'Library',
             books,
             noresult: false,
-            book : {},
-            genrelist
+            book: {},
+            genrelist,
           }
 
         );
@@ -75,8 +75,8 @@ function bookController() {
             nav,
             title: 'Library',
             noresult: true,
-            book : {},
-            genrelist
+            book: {},
+            genrelist,
           }
         );
       }
