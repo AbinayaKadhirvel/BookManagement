@@ -34,7 +34,7 @@ function authController() {
           }
           else {
             req.login(useradded, () => {
-              res.redirect('/');
+              res.redirect('/books');
             });
           }
         });
@@ -50,10 +50,22 @@ function authController() {
     });
   }
 
-  function authenticateUser() {
-    passport.authenticate('local', {
-      successRedirect: '/books',
-      failureRedirect: '/?error=userdoesnotexists',
+  function authenticateUser(req,res) {
+    debug('here');
+    query = { username: req.body.username };
+    User.findOne(query, (err, user) => {
+      if (user && user.password === req.body.password) {
+        req.login(user, () => {
+          res.redirect('/books');
+        });
+        // passport.authenticate('local', {
+        //   successRedirect: '/books',
+        //   failureRedirect: '/?error=userdoesnotexists',
+        // });
+      }
+      else {
+        res.redirect('/?error=userdoesnotexists');
+      }
     });
   }
   // Revealing Module Pattern
