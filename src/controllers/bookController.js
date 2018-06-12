@@ -111,7 +111,15 @@ function bookController() {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
       }
       else {
-        res.redirect('/books/' + book._id);
+        res.render(
+          'bookView',
+          {
+            nav,
+            title: 'Library',
+            book,
+            genrelist,
+          }
+        );
       }
     });
   }
