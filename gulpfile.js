@@ -33,7 +33,7 @@ gulp.task('default', () => {
 gulp.task('test', () => {
   env({ vars: { ENV: 'Test' } });
   gulp.src('./src/tests/*.js', { read: false })
-    .pipe(gulpMocha({ reporter: 'nyan', timeout: 5000 }));
+    .pipe(gulpMocha({ reporter: 'nyan' ,timeout : 5000}));
 });
 
 
