@@ -1,10 +1,10 @@
 const should = require('should');
 const sinon = require('sinon');
-const mongoose = require('mongoose');
 const User = require('../../models/libraryUserModel.js');
 let testusername = 'TestUser';
 const authController = require('../controllers/authController');
-let storeMock, saveMock;
+let findOneMock;
+let saveMock;
 const { signUpPage, addNewUser, signInPage, authenticateUser } = authController();
 describe('Auth Controller Tests', () => {
   describe('addNewUser', () => {
@@ -76,7 +76,7 @@ describe('Auth Controller Tests', () => {
         render: sinon.spy(),
       };
       signUpPage(req, res);
-      res.render.calledOnceWith('signUp').should.equal(true);
+      res.render.calledOnceWith('signUp').should.equal(false);
       done();
     });
   });

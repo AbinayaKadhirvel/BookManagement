@@ -111,15 +111,7 @@ function bookController() {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
       }
       else {
-        res.render(
-          'bookView',
-          {
-            nav,
-            title: 'Library',
-            book,
-            genrelist,
-          }
-        );
+        res.redirect('/books/' + book._id);
       }
     });
   }
@@ -140,14 +132,12 @@ function bookController() {
     });
   }
   function deleteBook(req, res) {
-    debug(req.book);
-    debug('sdf');
     req.book.remove((err) => {
       if (err) {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
       }
       else {
-        res.status(HttpStatus.NO_CONTENT).send('Removed');
+        res.status(HttpStatus.NO_CONTENT).send();
       }
     });
   }
