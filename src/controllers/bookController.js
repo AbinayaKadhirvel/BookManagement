@@ -111,15 +111,7 @@ function bookController() {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
       }
       else {
-        res.render(
-          'bookView',
-          {
-            nav,
-            title: 'Library',
-            book,
-            genrelist,
-          }
-        );
+        res.redirect('/books/' + book._id);
       }
     });
   }

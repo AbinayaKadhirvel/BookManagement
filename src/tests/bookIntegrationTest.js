@@ -86,10 +86,8 @@ describe('User Crud Test', () => {
       })
       .expect(200)
       .end((err, results) => {
-        expect(results).to.be.html;
-        const $ = cheerio.load(results.text);
-        let resultbookid = $('#bookid').attr('value');
-        resultbookid.should.equal(bookid.toString());
+        expect(results).to.redirect;
+        expect(results).to.redirectTo('/books/' + bookid);
         done();
       });
   }).timeout(5000);

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const bookmodel = new Schema({
   author: { type: String },
   title: { type: String },
-  read: { type: Boolean, default: false },
+  read: { type: Boolean, "default": false },
   genre: { type: String },
 });
 
