@@ -54,14 +54,14 @@ function bookController() {
     }
     Book.find(query, (err, books) => {
       debug(books);
-      if (books) {
+      if (books[0]) {
         res.render(
           'bookListView',
           {
             nav,
             title: 'Library',
             books,
-            noresult: false,
+            noresult: '0',
             book: {},
             genrelist,
           }
@@ -74,7 +74,8 @@ function bookController() {
           {
             nav,
             title: 'Library',
-            noresult: true,
+            noresult: '1',
+            books: {},
             book: {},
             genrelist,
           }
@@ -157,9 +158,15 @@ function bookController() {
       res.send('Title is required');
     }
     else {
-      newBook.save();
-      res.status(HttpStatus.CREATED);
-      res.redirect('/books');
+      newBook.save((err) => {
+        if (err) {
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+        }
+        else {
+          res.status(HttpStatus.CREATED);
+          res.redirect('/books');
+        }
+      });
     }
   }
   // Revealing Module Pattern
