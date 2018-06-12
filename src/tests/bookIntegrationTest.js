@@ -13,6 +13,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 const Book = mongoose.model('Book');
+
 const agent = request.agent(app);
 
 beforeEach((done) => {
@@ -44,6 +45,7 @@ describe('User Crud Test', () => {
         done();
       });
   }).timeout(5000);
+
   it('Should search for a book', (done) => {
     if (bookid) {
       agent.get('/books')
@@ -60,7 +62,6 @@ describe('User Crud Test', () => {
           done();
         });
     }
-
   }).timeout(5000);
 
   it('Get the list of books and match the bookname added', (done) => {
@@ -71,12 +72,11 @@ describe('User Crud Test', () => {
         const $ = cheerio.load(results.text);
         const bookname = $('h3').text();
         bookname.should.equal('New book');
-
         done();
       });
   }).timeout(5000);
-  it('Should edit a book with PUT method in body', (done) => {
 
+  it('Should edit a book with PUT method in body', (done) => {
     agent.post('/books/' + bookid)
       .send({
         author: 'New Author',
@@ -91,6 +91,35 @@ describe('User Crud Test', () => {
         done();
       });
   }).timeout(5000);
+
+  it('Should delete the book added', (done) => {
+
+    agent.post('/books/' + bookid)
+      .send({
+        _method: 'DELETE',
+      })
+      .expect(204)
+      .end((err, results) => {
+        let resultstext = results.text;
+        resultstext.should.equal('Removed');
+        done();
+      });
+  }).timeout(5000);
+
+  it('List the single book requested', (done) => {
+
+    agent.get('/books/' + bookid)
+      .expect(200)
+      .end((err, results) => {
+        expect(results).to.be.html;
+        const $ = cheerio.load(results.text);
+        const bookname = $('h3').text();
+        bookname.should.equal('New book');
+
+        done();
+      });
+  }).timeout(5000);
+
   it('Should allow a book to be added and return a read and _id', (done) => {
 
     const newBook = { author: 'New Author', title: 'New book', genre: 'Comedy' };
@@ -101,7 +130,6 @@ describe('User Crud Test', () => {
       .end((err, results) => {
         expect(results).to.redirect;
         expect(results).to.redirectTo('/books');
-        //console.log(results);
         done();
       });
   });
