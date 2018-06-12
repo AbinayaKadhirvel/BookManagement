@@ -1,6 +1,5 @@
 //const mongoose = require('mongoose');
 const debug = require('debug')('app:authController');
-const passport = require('passport');
 
 //const db = mongoose.connect('mongodb://localhost/libraryApp');
 const User = require('../../models/libraryUserModel.js');
@@ -21,9 +20,8 @@ function authController() {
 
   function addNewUser(req, res) {
     query = { username: req.body.username };
-    User.findOne(query, (err, user) => {
-      debug(user);
-      if (user) {
+    User.findOne(query, (err, userfound) => {
+      if (userfound) {
         res.redirect('/auth/signUp/?error=userexists');
       }
       else {
@@ -50,7 +48,7 @@ function authController() {
     });
   }
 
-  function authenticateUser(req,res) {
+  function authenticateUser(req, res) {
     debug('here');
     query = { username: req.body.username };
     User.findOne(query, (err, user) => {
