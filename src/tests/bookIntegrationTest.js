@@ -3,6 +3,7 @@ const app = require('../../app');
 const mongoose = require('mongoose');
 const cheerio = require('cheerio');
 const chai = require('chai');
+const should = require('should');
 const chaiHttp = require('chai-http');
 //const Book = require('../../models/bookModel.js');
 
@@ -15,6 +16,12 @@ const expect = chai.expect;
 const Book = mongoose.model('Book');
 
 const agent = request.agent(app);
+after(function() {
+  // runs after all tests in this block
+  mongoose.connection.close(function(){
+    done();
+  });
+});
 
 beforeEach((done) => {
   Book.remove().exec();
@@ -57,7 +64,6 @@ describe('User Crud Test', () => {
           expect(results).to.be.html;
           const $ = cheerio.load(results.text);
           let resultbookid = $('#bookid').attr('value');
-
           resultbookid.should.equal(bookid.toString());
           done();
         });
@@ -99,9 +105,7 @@ describe('User Crud Test', () => {
         _method: 'DELETE',
       })
       .expect(204)
-      .end((err, results) => {
-        let resultstext = results.text;
-        resultstext.should.equal('Removed');
+      .end(() => {
         done();
       });
   }).timeout(5000);
@@ -134,5 +138,3 @@ describe('User Crud Test', () => {
       });
   });
 });
-
-
