@@ -15,20 +15,6 @@ function router() {
   authRouter.route('/signIn')
     .get(signInPage)
     .post(authenticateUser);
-
-  authRouter.route('/profile')
-    .all((req, res, next) => {
-      if (req.user) {
-        next();
-      }
-      else {
-        res.redirect('/');
-      }
-    })
-    .get((req, res) => {
-      debug(req.body);
-      res.json(req.user);
-    });
   return authRouter;
 }
 
