@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.37% </span>
+        <span class="strong">95.12% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>38/43</span>
+        <span class='fraction'>39/41</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">77.78% </span>
+        <span class="strong">88.89% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>7/9</span>
+        <span class='fraction'>8/9</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.37% </span>
+        <span class="strong">95.12% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>38/43</span>
+        <span class='fraction'>39/41</span>
       </div>
     </div>
   </div>
@@ -113,11 +113,7 @@
 68
 69
 70
-71
-72
-73
-74
-75</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+71</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -145,28 +141,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -218,10 +210,6 @@ app.use(session({
 require('./src/config/passport.js')(app);
 &nbsp;
 app.use(express.static(path.join(__dirname, '/public/')));
-app.use((req, res, next) =&gt; {
-  //TODO
-  next();
-});
 app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
 app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
 app.use('/css', express.static(path.join(__dirname, '/public/css')));
@@ -236,11 +224,11 @@ const bookRouter = require('./src/routes/bookRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
 app.use(methodOverride(function (req) {
   debug(req.body);
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (req.body &amp;&amp; typeof req.body === 'object' &amp;&amp; '_method' in req.body) {
+  if (req.body &amp;&amp; typeof req.body === 'object' &amp;&amp; '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
-<span class="cstat-no" title="statement not covered" >    let method = req.body._method;</span>
-<span class="cstat-no" title="statement not covered" >    delete req.body._method;</span>
-<span class="cstat-no" title="statement not covered" >    return method;</span>
+    let method = req.body._method;
+    delete req.body._method;
+    return method;
   }
 }));
 app.use('/books', bookRouter);
@@ -271,7 +259,7 @@ module.exports = app.listen(port, (err) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jun 12 2018 05:00:45 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 18 2018 13:15:16 GMT+0530 (IST)
 </div>
 </div>
 <script src="../prettify.js"></script>
