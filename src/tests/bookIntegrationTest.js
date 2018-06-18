@@ -5,6 +5,7 @@ const cheerio = require('cheerio');
 const chai = require('chai');
 const should = require('should');
 const chaiHttp = require('chai-http');
+const HttpStatus = require('http-status-codes');
 //const Book = require('../../models/bookModel.js');
 
 
@@ -43,7 +44,7 @@ describe('User Crud Test', () => {
 
     agent.get('/books')
       .query({ searchby: 'title', searchterm: 'xyz' })
-      .expect(200)
+      .expect(HttpStatus.OK)
       .end((err, results) => {
         expect(results).to.be.html;
         const $ = cheerio.load(results.text);
@@ -57,7 +58,7 @@ describe('User Crud Test', () => {
     if (bookid) {
       agent.get('/books')
         .query({ searchby: 'title', searchterm: 'new' })
-        .expect(200)
+        .expect(HttpStatus.OK)
         .end((err, results) => {
 
 
@@ -72,7 +73,7 @@ describe('User Crud Test', () => {
 
   it('Get the list of books and match the bookname added', (done) => {
     agent.get('/books')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .end((err, results) => {
         expect(results).to.be.html;
         const $ = cheerio.load(results.text);
@@ -90,7 +91,7 @@ describe('User Crud Test', () => {
         genre: 'Comedy',
         _method: 'PUT',
       })
-      .expect(200)
+      .expect(HttpStatus.OK)
       .end((err, results) => {
         expect(results).to.redirect;
         expect(results).to.redirectTo('/books/' + bookid);
@@ -104,7 +105,7 @@ describe('User Crud Test', () => {
       .send({
         _method: 'DELETE',
       })
-      .expect(204)
+      .expect(HttpStatus.NO_CONTENT)
       .end(() => {
         done();
       });
@@ -113,7 +114,7 @@ describe('User Crud Test', () => {
   it('List the single book requested', (done) => {
 
     agent.get('/books/' + bookid)
-      .expect(200)
+      .expect(HttpStatus.OK)
       .end((err, results) => {
         expect(results).to.be.html;
         const $ = cheerio.load(results.text);
@@ -130,7 +131,7 @@ describe('User Crud Test', () => {
 
     agent.post('/books')
       .send(newBook)
-      .expect(200)
+      .expect(HttpStatus.OK)
       .end((err, results) => {
         expect(results).to.redirect;
         expect(results).to.redirectTo('/books');

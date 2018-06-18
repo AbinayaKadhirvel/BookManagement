@@ -1,6 +1,7 @@
 const should = require('should');
 const sinon = require('sinon');
 const mongoose = require('mongoose');
+const HttpStatus = require('http-status-codes');
 
 const Book = require('../../models/bookModel.js');
 let saveMock;
@@ -25,7 +26,7 @@ describe('Book App Controller Tests', () => {
 
       const bookController = require('../controllers/bookController')(Book);
       bookController.addNewBook(req, res);
-      res.status.calledWith(400).should.equal(true, `Bad Status ${res.status.args[0][0]}`);
+      res.status.calledWith(HttpStatus.BAD_REQUEST).should.equal(true, `Bad Status ${res.status.args[0][0]}`);
       res.send.calledWith('Title is required').should.equal(true);
     });
   });
