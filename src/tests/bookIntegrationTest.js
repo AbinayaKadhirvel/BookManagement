@@ -4,12 +4,10 @@ const mongoose = require('mongoose');
 const cheerio = require('cheerio');
 const chai = require('chai');
 const should = require('should');
+
 const chaiHttp = require('chai-http');
-<<<<<<< HEAD
 const errorCode = require('../config/errorcodes');
-=======
 const HttpStatus = require('http-status-codes');
->>>>>>> 752a38d597618c3b4efb601ef80c366631433f70
 //const Book = require('../../models/bookModel.js');
 
 
