@@ -3,6 +3,7 @@ const sinon = require('sinon');
 const mongoose = require('mongoose');
 const errorCode = require('../config/errorcodes');
 const Book = require('../../models/bookModel.js');
+const bookController = require('../controllers/bookController')(Book);
 let saveMock;
 
 describe('Book App Controller Tests', () => {
@@ -22,8 +23,6 @@ describe('Book App Controller Tests', () => {
         status: sinon.spy(),
         send: sinon.spy(),
       };
-
-      const bookController = require('../controllers/bookController')(Book);
       bookController.addNewBook(req, res);
       res.status.calledWith(400).should.equal(true, `Bad Status ${res.status.args[0][0]}`);
       res.send.calledWith(errorCode.TitleRequired).should.equal(true);
@@ -56,8 +55,6 @@ describe('Book App Controller Tests', () => {
         status: sinon.spy(),
         json: sinon.spy(),
       };
-
-      const bookController = require('../controllers/bookController')(Book);
       saveMock.yields('', { bookToReturn });
       bookController.updateOneBook(req, res);
       res.json.calledWith(bookToReturn).should.equal(true);
