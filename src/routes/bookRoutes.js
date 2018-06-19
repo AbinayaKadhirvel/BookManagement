@@ -5,10 +5,10 @@ const debug = require('debug')('app:bookRoutes');
 const bookController = require('../controllers/bookController');
 
 function router() {
-  const { getIndex, getById, middleware, postNew, addNewBook, updateOneBook, deleteBook } = bookController();
+  const { getAll, getById, middleware, postNew, addNewBook, updateOneBook, deleteBook } = bookController();
   debug('BookRouter');
   bookRouter.route('/')
-    .get(getIndex)
+    .get(getAll)
     .post(postNew);
 
   bookRouter.use('/:bookId', middleware);

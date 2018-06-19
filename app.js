@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const methodOverride = require('method-override');
+const errorCode = require('./src/config/errorcodes');
 // To create an instance of express
 const app = express();
 const port = process.env.PORT || 3000;
@@ -56,6 +57,7 @@ app.get('/', (req, res) => {
       nav: [ { link: '/books', title: 'Books' } ],
       title: 'Library',
       error: req.query.error,
+      errorCode,
     }
   );
 });
