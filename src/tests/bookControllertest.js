@@ -1,12 +1,9 @@
 const should = require('should');
 const sinon = require('sinon');
 const mongoose = require('mongoose');
-<<<<<<< HEAD
 const errorCode = require('../config/errorcodes');
-=======
 const HttpStatus = require('http-status-codes');
 
->>>>>>> 752a38d597618c3b4efb601ef80c366631433f70
 const Book = require('../../models/bookModel.js');
 const bookController = require('../controllers/bookController')(Book);
 let saveMock;
@@ -29,7 +26,6 @@ describe('Book App Controller Tests', () => {
         send: sinon.spy(),
       };
       bookController.addNewBook(req, res);
-      
       res.status.calledWith(HttpStatus.BAD_REQUEST).should.equal(true, `Bad Status ${res.status.args[0][0]}`);
       res.send.calledWith(errorCode.TitleRequired).should.equal(true);
     });
