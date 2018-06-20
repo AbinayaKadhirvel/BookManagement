@@ -28,48 +28,17 @@ function bookController() {
         res.status(result.errorCode).send(result.error);
       }
       else if (results.error) {
-        res.render(
-          'bookListView',
-          {
-            nav,
-            title: 'Library',
-            noresult: '1',
-            books: {},
-            book: {},
-            genrelist,
-            errorCode,
-          }
-        );
+        res.status(HttpStatus.NOT_FOUND).send();
       }
       else {
-        res.render(
-          'bookListView',
-          {
-            nav,
-            noresult: '0',
-            title: 'Library',
-            books: results.data,
-            book: {},
-            genrelist,
-            errorCode,
-          }
-        );
+        res.status(HttpStatus.OK).send(results.data);
       }
     });
 
   }
   function getById(req, res) {
     book = req.book;
-    res.render(
-      'bookView',
-      {
-        nav,
-        title: 'Library',
-        book,
-        genrelist,
-        errorCode,
-      }
-    );
+    res.status(HttpStatus.OK).send(book);
   }
   function addNewBook(req, res) {
     if (!req.body.title) {
@@ -85,7 +54,7 @@ function bookController() {
         res.status(results.errorCode).send(results.error);
       }
       else {
-        res.redirect('/books/' + results.data._id);
+        res.status(HttpStatus.OK).json(results.data);
       }
     });
   }
@@ -127,8 +96,7 @@ function bookController() {
           res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
         }
         else {
-          res.status(HttpStatus.CREATED);
-          res.redirect('/books');
+          res.status(HttpStatus.CREATED).send(HttpStatus.getStatusText(HttpStatus.CREATED));
         }
       });
     }

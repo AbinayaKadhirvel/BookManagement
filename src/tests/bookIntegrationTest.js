@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const cheerio = require('cheerio');
 const chai = require('chai');
 const should = require('should');
+
 const chaiHttp = require('chai-http');
+const errorCode = require('../config/errorcodes');
 const HttpStatus = require('http-status-codes');
 //const Book = require('../../models/bookModel.js');
 
@@ -49,7 +51,7 @@ describe('User Crud Test', () => {
         expect(results).to.be.html;
         const $ = cheerio.load(results.text);
         let noresulttext = $('.noresult').text();
-        noresulttext.should.equal('No Books matching your searchterm.');
+        noresulttext.should.equal(errorCode.NoBookFoundOnSearch);
         done();
       });
   }).timeout(5000);

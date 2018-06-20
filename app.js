@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const readYaml = require('read-yaml');
+const errorCode = require('./src/config/errorcodes');
 // To create an instance of express
 const app = express();
 const port = process.env.PORT || 3000;
@@ -42,6 +43,7 @@ app.set('view engine', 'ejs');
 
 const bookRouter = require('./src/routes/bookRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
+const bookAPIRouter = require('./src/routes/bookAPIRoutes')();
 app.use(methodOverride(function (req) {
   debug(req.body);
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -53,6 +55,7 @@ app.use(methodOverride(function (req) {
 }));
 app.use('/books', bookRouter);
 app.use('/auth', authRouter);
+app.use('/bookAPI', bookAPIRouter);
 
 app.get('/', (req, res) => {
   res.render(
@@ -61,6 +64,7 @@ app.get('/', (req, res) => {
       nav: [ { link: '/books', title: 'Books' } ],
       title: 'Library',
       error: req.query.error,
+      errorCode,
     }
   );
 });

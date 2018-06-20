@@ -101,7 +101,7 @@
           <div class='booklistview'>
             
             <%if(noresult === '1') {%>
-              <div class='noresult'>No Books matching your searchterm.</div>
+              <div class='noresult'><%=errorCode.NoBookFoundOnSearch%></div>
             <%}%>
 
             <!--/stories-->

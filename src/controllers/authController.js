@@ -1,5 +1,6 @@
 //const mongoose = require('mongoose');
 const debug = require('debug')('app:authController');
+const errorCode = require('../config/errorcodes');
 
 //const db = mongoose.connect('mongodb://localhost/libraryApp');
 const User = require('../../models/libraryUserModel.js');
@@ -14,6 +15,7 @@ function authController() {
         nav: nav,
         title: 'Library',
         error: req.query.error,
+        errorCode,
       }
     );
   }
@@ -45,6 +47,7 @@ function authController() {
       nav,
       title: 'Sign In',
       error: req.query.error,
+      errorCode,
     });
   }
 

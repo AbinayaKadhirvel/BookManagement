@@ -1,11 +1,11 @@
 const express = require('express');
 
 const bookRouter = express.Router();
-const debug = require('debug')('app:bookRoutes');
-const bookController = require('../controllers/bookController');
+const debug = require('debug')('app:bookAPIRoutes');
+const bookAPIController = require('../controllers/bookAPIController');
 
 function router() {
-  const { getAll, getById, middleware, postNew, addNewBook, updateOneBook, deleteBook } = bookController();
+  const { getAll, getById, middleware, postNew, addNewBook, updateOneBook, deleteBook } = bookAPIController();
   debug('BookRouter');
   bookRouter.route('/')
     .get(getAll)
