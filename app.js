@@ -38,6 +38,7 @@ app.set('view engine', 'ejs');
 
 const bookRouter = require('./src/routes/bookRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
+const bookAPIRouter = require('./src/routes/bookAPIRoutes')();
 app.use(methodOverride(function (req) {
   debug(req.body);
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -49,6 +50,7 @@ app.use(methodOverride(function (req) {
 }));
 app.use('/books', bookRouter);
 app.use('/auth', authRouter);
+app.use('/bookAPI', bookAPIRouter);
 
 app.get('/', (req, res) => {
   res.render(
