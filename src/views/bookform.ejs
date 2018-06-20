@@ -16,9 +16,9 @@
     <div class="form-group">
         <label class='control-label col-sm-2' for="genre">Genre:</label>
         <div class="col-sm-2">
-            <select class="form-control col-sm-2" id="genre">
+            <select class="form-control col-sm-2" data-genre='<%=book.genre%>' name='genre' id="genre">
                     <%for(let i=0; i<genrelist.length; i++){%>
-                        <option <%if(genrelist[i].value == book.genre){%>selected <%}%> value="<%=genrelist[i].value%>"><%=genrelist[i].name%></a>
+                        <option data-value='<%=genrelist[i].value%>' <%if(genrelist[i].value == book.genre){%>selected <%}%> value="<%=genrelist[i].value%>"><%=genrelist[i].name%></a>
                     <%}%>
             </select>
         </div>

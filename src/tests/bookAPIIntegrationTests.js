@@ -45,7 +45,7 @@ describe('User Crud Test for BookAPI', () => {
     agent.get('/bookAPI')
       .query({ searchby: 'title', searchterm: 'xyz' })
       .expect(HttpStatus.OK)
-      .end((err) => {
+      .end(() => {
         done();
       });
   }).timeout(5000);
