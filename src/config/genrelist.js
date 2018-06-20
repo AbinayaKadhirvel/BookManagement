@@ -3,7 +3,7 @@ const genrelist = [
   { name: 'Science Fiction', value: 'Science Fiction' },
   { name: 'Fantasy', value: 'Fantasy' },
   { name: 'Historical Fiction', value: 'Historical Fiction' },
-  { name: 'Comic', value: 'Comic' },
+  { name: 'Comedy', value: 'Comedy' },
   { name: 'Drama', value: 'Drama' },
 ];
 

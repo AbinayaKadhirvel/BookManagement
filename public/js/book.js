@@ -7,6 +7,9 @@ $(document).ready(function() {
     $('.addbookform').show();
     $('.booklistview').hide();
   });
+  $('.searchby').click(function () {
+    window.location = '/books?searchterm=' + $(this).data('searchterm') + '&searchby=' + $(this).data('searchby')
+  })
   $('.removebook').click(function(){
     let bookid = $(this).data('bookid');
     let xhr = new XMLHttpRequest();
@@ -19,7 +22,6 @@ $(document).ready(function() {
     };
     xhr.open('DELETE', '/books/' + bookid, true);
     xhr.send();
-
 
   });
 });

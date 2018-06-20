@@ -112,8 +112,9 @@
               <input type='hidden' id="bookid" value="<%=book._id%>">
               <div class="row">
                 <div class="col-xs-9">
-                  <h4><span class="label label-default"><%=book.author%></span></h4><h4>
-                  </h4></div>
+                  <h4 class='searchby' data-searchby='author' data-searchterm='<%=book.author%>'><span class="label label-default"><%=book.author%></span></h4>
+                  <h4 class='searchby' data-searchby='genre' data-searchterm='<%=book.genre%>'><span class="label label-warning"><%=book.genre%></span></h4> 
+                </div>
                 <div class="col-xs-3"><button type="button" class="btn btn-info editbook">Edit Book</button></div>
               </div>
            
