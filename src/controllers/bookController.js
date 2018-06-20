@@ -96,13 +96,13 @@ function bookController() {
     for (const property in req.body) {
       req.book[property] = req.body[property];
     }
-    req.book.save((err) => {
-      if (err) {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+    bookPersistence.PersistBook(req.book, (results) => {
+      if (results.error) {
+        res.status(results.errorCode).send(error);
       }
       else {
         res.status(HttpStatus.CREATED);
-        res.json(req.book);
+        res.json(results.data);
       }
     });
   }
@@ -117,14 +117,15 @@ function bookController() {
     });
   }
   function postNew(req, res) {
+    debug(req.body);
     const newBook = new Book(req.body);
     if (!req.body.title) {
       res.status(HttpStatus.BAD_REQUEST).send(errorCode.TitleRequired);
     }
     else {
-      newBook.save((err) => {
-        if (err) {
-          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+      bookPersistence.PersistBook(newBook, (results) => {
+        if (results.error) {
+          res.status(results.errorCode).send(error);
         }
         else {
           res.status(HttpStatus.CREATED);
@@ -132,6 +133,7 @@ function bookController() {
         }
       });
     }
+    
   }
   // Revealing Module Pattern
   return {

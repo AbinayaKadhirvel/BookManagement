@@ -11,6 +11,7 @@
     "eslint": "^4.19.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "faker": "^4.1.0",
     "gulp-env": "^0.4.0",
     "gulp-mocha": "^6.0.0",
     "gulp-nodemon": "^2.2.1",

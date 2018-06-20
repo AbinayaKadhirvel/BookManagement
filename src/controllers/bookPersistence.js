@@ -1,7 +1,8 @@
 const HttpStatus = require('http-status-codes');
-const debug = require('debug')('app:bookController');
+const debug = require('debug')('app:bookPersistence');
 const errorCode = require('../config/errorcodes');
-
+const faker = require('faker');
+const bookService = require('../services/goodreadsService');
 //const db = mongoose.connect('mongodb://localhost/libraryApp');
 const Book = require('../../models/bookModel.js');
 
@@ -17,10 +18,21 @@ module.exports = {
           });
         }
         else if (book) {
-          callback({
-            error: '',
-            data: book,
+          bookserviceapi = bookService.getBookById(656);
+          bookserviceapi.then (function (results) {
+            book.description = results.description;
+            callback({
+              error: '',
+              data: book,
+            });
+          }, function (results) {
+            debug(results);
+            callback({
+              error: '',
+              data: book,
+            });
           });
+
         }
         else {
           callback({
@@ -38,6 +50,7 @@ module.exports = {
     }
   },
   SearchBooks: (searchQuery, callback) => {
+
     debug(searchQuery);
     callback = callback || (() => {});
     let searchby = searchQuery.searchby;
@@ -55,9 +68,7 @@ module.exports = {
     if (searchby === 'genre') {
       query.genre = querysearchparam;
     }
-    debug(query);
     Book.find(query, (err, books) => {
-        debug(books);
       if (books[0]) {
         return callback({
           error: '',
@@ -75,6 +86,7 @@ module.exports = {
     });
   },
   PersistBook: (book, callback) => {
+    book.imageURL = faker.image.avatar();
     book.save((err, book) => {
       if (err) {
         return callback({
