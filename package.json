@@ -29,9 +29,12 @@
     "parse5": "^5.0.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "read-yaml": "^1.1.0",
     "should": "^13.2.1",
     "sinon": "^5.1.1",
     "supertest": "^3.1.0",
+    "swagger": "^0.7.5",
+    "swagger-ui-express": "^3.0.10",
     "xml2js": "^0.4.19"
   },
   "nodemonConfig": {

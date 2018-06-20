@@ -8,10 +8,15 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const methodOverride = require('method-override');
+const readYaml = require('read-yaml');
 // To create an instance of express
 const app = express();
 const port = process.env.PORT || 3000;
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerConfig = readYaml.sync(path.resolve(__dirname, './api/swagger/swagger.yaml'));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
