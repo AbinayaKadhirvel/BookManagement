@@ -69,12 +69,18 @@ function authController() {
       }
     });
   }
+  function userLogout(req, res) {
+    req.session.destroy(function (err) {
+      res.redirect('/'); //Inside a callback… bulletproof!
+    });
+  }
   // Revealing Module Pattern
   return {
     signUpPage,
     addNewUser,
     signInPage,
     authenticateUser,
+    userLogout,
   };
 }
 
