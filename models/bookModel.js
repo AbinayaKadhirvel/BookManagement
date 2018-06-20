@@ -10,7 +10,7 @@ const bookmodel = new Schema({
   genre: { type: String },
   imageURL: {
     type: String,
-    "default": function() {
+    'default': function() {
       return faker.image.avatar();
     },
   },

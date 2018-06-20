@@ -8,7 +8,7 @@ $(document).ready(function() {
     $('.booklistview').hide();
   });
   $('.searchby').click(function () {
-    window.location = '/books?searchterm=' + $(this).data('searchterm') + '&searchby=' + $(this).data('searchby')
+    window.location = '/books?searchterm=' + $(this).data('searchterm') + '&searchby=' + $(this).data('searchby');
   })
   $('.removebook').click(function(){
     let bookid = $(this).data('bookid');
