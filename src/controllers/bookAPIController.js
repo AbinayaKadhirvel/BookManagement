@@ -5,11 +5,7 @@ const errorCode = require('../config/errorcodes');
 const bookPersistence = require('./bookPersistence');
 //const db = mongoose.connect('mongodb://localhost/libraryApp');
 const Book = require('../../models/bookModel.js');
-const nav = [
-  { link: '/books', title: 'Book' },
-];
-const genrelist = require('../config/genrelist');
-function bookController() {
+function bookAPIController() {
   function middleware(req, res, next) {
     bookPersistence.GetBookByID(req.params.bookId, function(result) {
       if (result.error) {
@@ -31,7 +27,7 @@ function bookController() {
         res.status(HttpStatus.NOT_FOUND).send();
       }
       else {
-        res.status(HttpStatus.OK).send(results.data);
+        res.status(HttpStatus.OK).json(results.data);
       }
     });
 
@@ -91,12 +87,12 @@ function bookController() {
       res.status(HttpStatus.BAD_REQUEST).send(errorCode.TitleRequired);
     }
     else {
-      newBook.save((err) => {
+      newBook.save((err, book) => {
         if (err) {
           res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
         }
         else {
-          res.status(HttpStatus.CREATED).send(HttpStatus.getStatusText(HttpStatus.CREATED));
+          res.status(HttpStatus.CREATED).json(book);
         }
       });
     }
@@ -113,4 +109,4 @@ function bookController() {
   };
 }
 
-module.exports = bookController;
+module.exports = bookAPIController;
