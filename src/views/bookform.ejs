@@ -20,7 +20,7 @@
         <div class="col-sm-2">
             <select class="form-control col-sm-2" data-genre='<%=book.genre%>' name='genre' id="genre">
                     <%for(let i=0; i<genrelist.length; i++){%>
-                        <option data-value='<%=genrelist[i].value%>' <%if(genrelist[i].value == book.genre){%>selected <%}%> value="<%=genrelist[i].value%>"><%=genrelist[i].name%></a>
+                        <option data-value='<%=genrelist[i].value%>' <%if(genrelist[i].value == book.genre){%>selected <%}%> value="<%=genrelist[i].value%>"><%=genrelist[i].name%></option>
                     <%}%>
             </select>
         </div>
