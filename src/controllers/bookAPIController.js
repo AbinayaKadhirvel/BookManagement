@@ -63,7 +63,7 @@ function bookAPIController() {
     }
     req.book.save((err) => {
       if (err) {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(errorCode.BookUpdateFailed);
       }
       else {
         res.status(HttpStatus.CREATED);
@@ -89,7 +89,7 @@ function bookAPIController() {
     else {
       newBook.save((err, book) => {
         if (err) {
-          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(errorCode.BookUpdateFailed);
         }
         else {
           res.status(HttpStatus.CREATED).json(book);
