@@ -9,4 +9,6 @@ module.exports = {
   userAlreadyExists: 'User already exists!',
   userAddDBError: 'Error adding user! Please try again',
   NotValidID: 'Not a valid BookID',
+  userSessionTimedout: 'User Session Timed out',
+  BookAlreadyAdded: 'Book Already added to the user',
 };

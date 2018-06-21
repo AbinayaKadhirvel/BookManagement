@@ -107,7 +107,7 @@ describe('User Crud Test for BookAPI', () => {
       });
   }).timeout(5000);
 
-  it('Should allow a book to be added and return a read and _id', (done) => {
+  it('Should allow a book to be added', (done) => {
 
     const newBook = { author: 'New Author Post', title: 'New book post', genre: 'Comedy' };
 

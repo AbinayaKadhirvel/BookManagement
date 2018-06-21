@@ -7,7 +7,7 @@ const validator = require('../validator/bookValidator');
 //const db = mongoose.connect('mongodb://localhost/libraryApp');
 const Book = require('../../models/bookModel.js');
 const nav = [
-  { link: '/books', title: 'Book' },
+  { link: '/books?filteruserbooks=1', title: 'My Subscribed Books' },
 ];
 
 const genrelist = require('../config/genrelist');
@@ -21,7 +21,21 @@ function bookController() {
           }
           else {
             req.book = result.data;
-            next();
+            if (process.env.ENV === 'Test') {
+              next();
+            }
+            else {
+              if (req.sessionuserid) {
+                checkIfBookAddedByUser({
+                  books: [ req.book ],
+                  userid: req.sessionuserid,
+                }).then((response) => {
+
+                  req.book = response[0];
+                  next();
+                });
+              }
+            }
           }
         });
       }
@@ -50,18 +64,47 @@ function bookController() {
         );
       }
       else {
-        res.render(
-          'bookListView',
-          {
-            nav,
-            noresult: '0',
-            title: 'Library',
-            books: results.data,
-            book: {},
-            genrelist,
-            errorCode,
+        if (req.sessionuserid) {
+          let filter = false;
+          if (req.query.filteruserbooks) {
+            filter = true;
           }
-        );
+
+          checkIfBookAddedByUser({
+            books: results.data,
+            userid: req.sessionuserid,
+            filter: filter,
+          }).then((response) => {
+            debug(response);
+            res.render(
+              'bookListView',
+              {
+                nav,
+                noresult: '0',
+                title: 'Library',
+                books: response,
+                book: {},
+                genrelist,
+                errorCode,
+              }
+            );
+          });
+        }
+        else {
+          res.render(
+            'bookListView',
+            {
+              nav,
+              noresult: '0',
+              title: 'Library',
+              books: results.data,
+              book: {},
+              genrelist,
+              errorCode,
+            }
+          );
+        }
+
       }
     });
 
@@ -86,7 +129,6 @@ function bookController() {
     }
     req.book.title = req.body.title;
     req.book.author = req.body.author;
-    req.book.read = req.body.read;
     req.book.genre = req.body.genre;
     req.book.description = req.body.description;
     req.book.imageURL = req.body.imageURL;
@@ -144,6 +186,35 @@ function bookController() {
       });
     }
   }
+  checkIfBookAddedByUser =  (params) => {
+    return new Promise((resolve) => {
+      const User = require('../../models/libraryUserModel.js');
+      User.findById(params.userid, (err, user) => {
+        if (err) {
+          debug('Error finding user');
+        }
+        else {
+          let userbooks = [];
+          params.books.map((book) => {
+            if (user.books.indexOf(book._id) >= 0) {
+              book.bookaddedbyuser = true;
+              userbooks.push(book);
+            }
+            else {
+              book.bookaddedbyuser = false;
+            }
+          });
+          if (params.filter) {
+            resolve(userbooks);
+          }
+          else {
+            resolve(params.books);
+          }
+
+        }
+      });
+    });
+  };
   // Revealing Module Pattern
   return {
     getAll,

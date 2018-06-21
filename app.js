@@ -44,13 +44,12 @@ app.set('view engine', 'ejs');
 const bookRouter = require('./src/routes/bookRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
 const bookAPIRouter = require('./src/routes/bookAPIRoutes')();
-app.use('/books', function (req,res,next) {
-  if(req.session && req.session.passport && req.session.passport.user && req.session.passport.user._id) {
+app.use('/books', function (req, res, next) {
+  if (req.session && req.session.passport && req.session.passport.user && req.session.passport.user._id) {
+    req.sessionuserid = req.session.passport.user._id;
     next();
   }
   else {
-    debug('User Session is' + session);
-    debug('Request is ' + req);
     res.redirect('/');
   }
 });
@@ -70,8 +69,7 @@ app.get('/', (req, res) => {
   res.render(
     'index',
     {
-      nav: [ { link: '/books', title: 'Books' } ],
-      title: 'Library',
+      title: 'Sign In',
       error: req.query.error,
       errorCode,
     }

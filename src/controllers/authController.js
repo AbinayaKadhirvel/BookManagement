@@ -1,19 +1,16 @@
 //const mongoose = require('mongoose');
 const debug = require('debug')('app:authController');
 const errorCode = require('../config/errorcodes');
-
+const HttpStatus = require('http-status-codes');
 //const db = mongoose.connect('mongodb://localhost/libraryApp');
 const User = require('../../models/libraryUserModel.js');
-const nav = [
-  { link: '/books', title: 'Book' },
-];
+
 function authController() {
   function signUpPage(req, res) {
     res.render(
       'signUp',
       {
-        nav: nav,
-        title: 'Library',
+        title: 'Sign Up',
         error: req.query.error,
         errorCode,
       }
@@ -44,7 +41,6 @@ function authController() {
 
   function signInPage(req, res) {
     res.render('index', {
-      nav,
       title: 'Sign In',
       error: req.query.error,
       errorCode,
@@ -69,10 +65,44 @@ function authController() {
       }
     });
   }
-  function userLogout(req, res) {
-    req.session.destroy(function (err) {
-      res.redirect('/'); //Inside a callback… bulletproof!
-    });
+  function addbooktouser (req, res) {
+    debug(req.query);
+    if (!req.query.bookid) {
+      res.status(HttpStatus.BAD_REQUEST).send(errorCode.NoBookRequested);
+    }
+    //res.status(200).send();
+    if (req.session && req.session.passport && req.session.passport.user && req.session.passport.user._id) {
+      userid = req.session.passport.user._id;
+      debug(userid);
+      User.findById(userid, (err, user) => {
+        if (err) {
+          debug(err);
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(HttpStatus.DBError);
+        }
+        else {
+          if (user.books.indexOf(req.query.bookid) < 0) {
+            user.books.push(req.query.bookid);
+            user.save((err) => {
+              if (err) {
+                debug(err);
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(HttpStatus.DBError);
+              }
+              else {
+                res.status(HttpStatus.OK).send();
+              }
+            });
+          }
+          else {
+            res.status(HttpStatus.BAD_REQUEST).send(errorCode.BookAlreadyAdded);
+          }
+
+        }
+      });
+    }
+    else {
+      debug('FAILED');
+      res.status(HttpStatus.BAD_REQUEST).send(errorCode.userSessionTimedout);
+    }
   }
   // Revealing Module Pattern
   return {
@@ -80,7 +110,7 @@ function authController() {
     addNewUser,
     signInPage,
     authenticateUser,
-    userLogout,
+    addbooktouser,
   };
 }
 
