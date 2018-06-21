@@ -45,13 +45,19 @@ const bookRouter = require('./src/routes/bookRoutes')();
 const authRouter = require('./src/routes/authRoutes')();
 const bookAPIRouter = require('./src/routes/bookAPIRoutes')();
 app.use('/books', function (req, res, next) {
-  if (req.session && req.session.passport && req.session.passport.user && req.session.passport.user._id) {
-    req.sessionuserid = req.session.passport.user._id;
+  if (process.env.ENV === 'Test') {
     next();
   }
   else {
-    res.redirect('/');
+    if (req.session && req.session.passport && req.session.passport.user && req.session.passport.user._id) {
+      req.sessionuserid = req.session.passport.user._id;
+      next();
+    }
+    else {
+      res.redirect('/');
+    }
   }
+
 });
 app.use(methodOverride(function (req) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {

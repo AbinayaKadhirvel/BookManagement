@@ -49,7 +49,7 @@ describe('User Crud Test', () => {
       .expect(HttpStatus.OK)
       .end((err, results) => {
         expect(results).to.be.html;
-        const $ = cheerio.load(results.text);
+        const $ = cheerio.load(results.text, { useHtmlParser2: true });
         let noresulttext = $('.noresult').text();
         noresulttext.should.equal(errorCode.NoBookFoundOnSearch);
         done();
@@ -127,7 +127,7 @@ describe('User Crud Test', () => {
       });
   }).timeout(5000);
 
-  it('Should allow a book to be added and return a read and _id', (done) => {
+  it('Should allow a book to be added', (done) => {
 
     const newBook = { author: 'New Author', title: 'New book', genre: 'Comedy' };
 

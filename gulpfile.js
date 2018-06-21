@@ -1,4 +1,5 @@
 let gulp = require('gulp');
+const istanbul = require('gulp-istanbul');
 const jshint = require('gulp-jshint');
 const nodemon = require('gulp-nodemon');
 const jscs = require('gulp-jscs');
@@ -30,13 +31,23 @@ gulp.task('default', () => {
     });
 });
 
-gulp.task('test', () => {
-  env({ vars: { ENV: 'Test' } });
-  gulp.src('./src/tests/*.js', { read: false })
-    .pipe(gulpMocha({ reporter: 'nyan' ,timeout : 5000}));
+gulp.task('pre-test', function () {
+  return gulp.src([ 'src/**/*.js' ])
+    // Covering files
+    .pipe(istanbul())
+    // Force `require` to return covered files
+    .pipe(istanbul.hookRequire());
 });
 
-
+gulp.task('test', [ 'pre-test' ], function () {
+  env({ vars: { ENV: 'Test' } });
+  return gulp.src([ './src/tests/*.js' ])
+    .pipe(gulpMocha())
+    // Creating the reports after tests ran
+    .pipe(istanbul.writeReports())
+    // Enforce a coverage of at least 90%
+    .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
+});
 gulp.task('inject', () => {
   const wiredep = require('wiredep').stream;
 
