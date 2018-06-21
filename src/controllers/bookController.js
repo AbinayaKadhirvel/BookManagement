@@ -3,24 +3,32 @@ const HttpStatus = require('http-status-codes');
 const debug = require('debug')('app:bookController');
 const errorCode = require('../config/errorcodes');
 const bookPersistence = require('./bookPersistence');
+const validator = require('../validator/bookValidator');
 //const db = mongoose.connect('mongodb://localhost/libraryApp');
 const Book = require('../../models/bookModel.js');
 const nav = [
   { link: '/books', title: 'Book' },
 ];
+
 const genrelist = require('../config/genrelist');
 function bookController() {
   function middleware(req, res, next) {
-    bookPersistence.GetBookByID(req.params.bookId, function(result) {
-      if (result.error) {
-        res.status(result.errorCode).send(result.error);
+    validator.validateBookId(req.params.bookId, function(bookResult) {
+      if (bookResult.bookID && bookResult.err === '') {
+        bookPersistence.GetBookByID(req.params.bookId, function(result) {
+          if (result.error) {
+            res.status(result.errorCode).send(result.error);
+          }
+          else {
+            req.book = result.data;
+            next();
+          }
+        });
       }
       else {
-        req.book = result.data;
-        next();
+        res.status(HttpStatus.BAD_REQUEST).send(bookResult.err);
       }
     });
-
   }
   function getAll(req, res) {
     bookPersistence.SearchBooks(req.query, function (results) {

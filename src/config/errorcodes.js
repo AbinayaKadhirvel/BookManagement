@@ -8,4 +8,5 @@ module.exports = {
   DBError: 'Error processing your request! Please try again later',
   userAlreadyExists: 'User already exists!',
   userAddDBError: 'Error adding user! Please try again',
+  NotValidID: 'Not a valid BookID',
 };
