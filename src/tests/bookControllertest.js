@@ -42,14 +42,16 @@ describe('Book App Controller Tests', () => {
       let bookToReturn = new Book({
         author: 'New Author',
         title: 'Test Book',
-        read: false,
         genre: 'Comedy',
         _id: 12345,
+        imageURL: 'url',
+        bookaddedbyuser: false,
       });
       const req = {
         body: {
           _id: 12345,
           author: 'Test Author',
+          imageURL: 'imageurl',
         },
         book: bookToReturn,
       };
@@ -57,7 +59,7 @@ describe('Book App Controller Tests', () => {
         status: sinon.spy(),
         json: sinon.spy(),
       };
-      saveMock.yields('', { bookToReturn });
+      saveMock.yields('',  bookToReturn );
       bookController.updateOneBook(req, res);
       res.json.calledWith(bookToReturn).should.equal(true);
     });

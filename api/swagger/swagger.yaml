@@ -150,7 +150,7 @@ definitions:
       author:
         type: "string"
         example: "Lev Nikolayevich Tolstoy"
-      read:
+      bookaddedbyuser:
         type: "boolean"
       genre:
         type: "string"

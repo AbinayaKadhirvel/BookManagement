@@ -43,8 +43,9 @@ function bookAPIController() {
     }
     req.book.title = req.body.title;
     req.book.author = req.body.author;
-    req.book.read = req.body.read;
     req.book.genre = req.body.genre;
+    req.book.description = req.body.description;
+    req.book.imageURL = req.body.imageURL;
     bookPersistence.PersistBook(req.book, (results) => {
       if (results.error) {
         res.status(results.errorCode).send(results.error);

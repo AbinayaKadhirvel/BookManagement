@@ -44,7 +44,7 @@
       "PORT": 4000
     }
   },
-  "name": "upskillingBookManagementApp1.0@1.0.0",
+  "name": "upskillingbookmanagementapp",
   "version": "1.0.0",
   "main": "app.js",
   "devDependencies": {
