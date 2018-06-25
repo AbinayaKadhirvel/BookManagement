@@ -65,7 +65,7 @@ which the following are implemented:
 #### Unit Test Report & Code Coverage: 
 istanbul cover node_modules/.bin/_mocha src/tests/*.js
 
-
+```
   Auth Controller Tests
     authenticateUser
       ✓ should not allow a user to be logged in if user credentials are wrong
@@ -119,3 +119,4 @@ Functions    : 89.47% ( 34/38 )
 Lines        : 74.36% ( 290/390 )
 ================================================================================
 
+```
