@@ -41,9 +41,13 @@ which the following are implemented:
 
 11. ejs - for rendering the templates in UI
 
-12. axios - for XMLHttpRequests from the browser
+12. gulp - automating repeated tasks
 
-13. gulp - automating repeated tasks
+13. faker - To fetch fake images for book cover
+
+14. chai - Assertion framework
+
+15. chai-http - HTTP integration testing with Chai assertions.
 
 
 
@@ -58,8 +62,60 @@ which the following are implemented:
 
 
 
-#### Unit Test Report: 
+#### Unit Test Report & Code Coverage: 
+istanbul cover node_modules/.bin/_mocha src/tests/*.js
 
- 
-#### Code Coverage: 
+
+  Auth Controller Tests
+    authenticateUser
+      ✓ should not allow a user to be logged in if user credentials are wrong
+      ✓ should allow a user to be logged in if user creds are correct
+    addNewUser
+      ✓ should not allow a user to be created if user already exists
+      ✓ should allow a user to be created if user not already exists
+    signInPage
+      ✓ should render index page
+    signUpPage
+      ✓ should render singUp page
+
+  User Crud Test for BookAPI
+    ✓ Should search for a book which is not listed
+    ✓ Should search for a book
+    ✓ Get the list of books and match the bookname added
+    ✓ Should put book
+    ✓ List the single book requested
+    ✓ Should allow a book to be added
+    ✓ Should not allow a book to be added if title is missing
+    ✓ Should delete the book added
+
+  Book App Controller Tests
+    Post
+      ✓ should not allow a empty name on post
+    Patch
+      ✓ should allow patch- edit single
+
+  User Crud Test
+    ✓ Should render Signin page for root access
+    ✓ Should search for a book which is not listed
+    ✓ Should search for a book
+    ✓ Get the list of books and match the bookname added
+    ✓ Should edit a book with PUT method in body
+    ✓ List the single book requested
+    ✓ Should allow a book to be added
+    ✓ Should delete the book added
+
+
+  24 passing (324ms)
+
+=============================================================================
+Writing coverage object [/Users/kabinaya/Documents/BookManagement/BookManagement/coverage/coverage.json]
+Writing coverage reports at [/Users/kabinaya/Documents/BookManagement/BookManagement/coverage]
+=============================================================================
+
+=============================== Coverage summary ===============================
+Statements   : 74.36% ( 290/390 )
+Branches     : 47.41% ( 64/135 )
+Functions    : 89.47% ( 34/38 )
+Lines        : 74.36% ( 290/390 )
+================================================================================
 
