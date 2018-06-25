@@ -3,18 +3,26 @@ const debug = require('debug')('app:bookController');
 const errorCode = require('../config/errorcodes');
 const bookPersistence = require('./bookPersistence');
 const Book = require('../../models/bookModel.js');
+const validator = require('../validator/bookValidator');
+
 function bookAPIController() {
   function middleware(req, res, next) {
-    bookPersistence.GetBookByID(req.params.bookId, function(result) {
-      if (result.error) {
-        res.status(result.errorCode).send(result.error);
+    validator.validateBookId(req.params.bookId, function(bookResult) {
+      if (bookResult.bookID && bookResult.err === '') {
+        bookPersistence.GetBookByID(req.params.bookId, function(result) {
+          if (result.error) {
+            res.status(result.errorCode).send(result.error);
+          }
+          else {
+            req.book = result.data;
+            next();
+          }
+        });
       }
       else {
-        req.book = result.data;
-        next();
+        res.status(HttpStatus.BAD_REQUEST).send(bookResult.err);
       }
     });
-
   }
   function getAll(req, res) {
     bookPersistence.SearchBooks(req.query, function (results) {
@@ -62,7 +70,7 @@ function bookAPIController() {
     }
     req.book.save((err) => {
       if (err) {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(errorCode.BookUpdateFailed);
       }
       else {
         res.status(HttpStatus.CREATED);
@@ -88,7 +96,7 @@ function bookAPIController() {
     else {
       newBook.save((err, book) => {
         if (err) {
-          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(err);
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(errorCode.BookUpdateFailed);
         }
         else {
           res.status(HttpStatus.CREATED).json(book);

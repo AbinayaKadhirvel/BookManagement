@@ -3,13 +3,20 @@ const HttpStatus = require('http-status-codes');
 const debug = require('debug')('app:bookController');
 const errorCode = require('../config/errorcodes');
 const bookPersistence = require('./bookPersistence');
+<<<<<<< HEAD
+=======
+const validator = require('../validator/bookValidator');
+//const db = mongoose.connect('mongodb://localhost/libraryApp');
+>>>>>>> 06d7667c3911532d12ca38f67d02f5e6d6558ccb
 const Book = require('../../models/bookModel.js');
 const nav = [
   { link: '/books?filteruserbooks=1', title: 'My Subscribed Books' },
 ];
+
 const genrelist = require('../config/genrelist');
 function bookController() {
   function middleware(req, res, next) {
+<<<<<<< HEAD
 
     bookPersistence.GetBookByID(req.params.bookId, function(result) {
       if (result.error) {
@@ -32,9 +39,38 @@ function bookController() {
           }
         }
 
+=======
+    validator.validateBookId(req.params.bookId, function(bookResult) {
+      if (bookResult.bookID && bookResult.err === '') {
+        bookPersistence.GetBookByID(req.params.bookId, function(result) {
+          if (result.error) {
+            res.status(result.errorCode).send(result.error);
+          }
+          else {
+            req.book = result.data;
+            if (process.env.ENV === 'Test') {
+              next();
+            }
+            else {
+              if (req.sessionuserid) {
+                checkIfBookAddedByUser({
+                  books: [ req.book ],
+                  userid: req.sessionuserid,
+                }).then((response) => {
+
+                  req.book = response[0];
+                  next();
+                });
+              }
+            }
+          }
+        });
+      }
+      else {
+        res.status(HttpStatus.BAD_REQUEST).send(bookResult.err);
+>>>>>>> 06d7667c3911532d12ca38f67d02f5e6d6558ccb
       }
     });
-
   }
   function getAll(req, res) {
     bookPersistence.SearchBooks(req.query, function (results) {
