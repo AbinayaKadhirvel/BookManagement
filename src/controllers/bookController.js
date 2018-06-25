@@ -3,11 +3,9 @@ const HttpStatus = require('http-status-codes');
 const debug = require('debug')('app:bookController');
 const errorCode = require('../config/errorcodes');
 const bookPersistence = require('./bookPersistence');
-<<<<<<< HEAD
-=======
+
 const validator = require('../validator/bookValidator');
-//const db = mongoose.connect('mongodb://localhost/libraryApp');
->>>>>>> 06d7667c3911532d12ca38f67d02f5e6d6558ccb
+
 const Book = require('../../models/bookModel.js');
 const nav = [
   { link: '/books?filteruserbooks=1', title: 'My Subscribed Books' },

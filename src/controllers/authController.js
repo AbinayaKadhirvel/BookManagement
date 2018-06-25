@@ -1,8 +1,6 @@
-//const mongoose = require('mongoose');
 const debug = require('debug')('app:authController');
 const errorCode = require('../config/errorcodes');
 const HttpStatus = require('http-status-codes');
-//const db = mongoose.connect('mongodb://localhost/libraryApp');
 const User = require('../../models/libraryUserModel.js');
 
 function authController() {
