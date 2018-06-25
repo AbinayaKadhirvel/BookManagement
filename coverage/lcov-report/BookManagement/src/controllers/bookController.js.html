@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">65.93% </span>
+        <span class="strong">66.32% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>60/91</span>
+        <span class='fraction'>63/95</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">41.18% </span>
+        <span class="strong">44.74% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>14/34</span>
+        <span class='fraction'>17/38</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>10/10</span>
+        <span class='fraction'>11/11</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">65.93% </span>
+        <span class="strong">66.32% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>60/91</span>
+        <span class='fraction'>63/95</span>
       </div>
     </div>
   </div>
@@ -265,19 +265,30 @@
 220
 221
 222
-223</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+223
+224
+225
+226
+227
+228
+229
+230</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-yes">3×</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -300,6 +311,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -487,43 +501,50 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">//const mongoose = require('mongoose');
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
 const HttpStatus = require('http-status-codes');
 const debug = require('debug')('app:bookController');
 const errorCode = require('../config/errorcodes');
 const bookPersistence = require('./bookPersistence');
+const validator = require('../validator/bookValidator');
+&nbsp;
 const Book = require('../../models/bookModel.js');
 const nav = [
   { link: '/books?filteruserbooks=1', title: 'My Subscribed Books' },
 ];
+&nbsp;
 const genrelist = require('../config/genrelist');
 function bookController() {
   function middleware(req, res, next) {
-&nbsp;
-    bookPersistence.GetBookByID(req.params.bookId, function(result) {
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (result.error) {
-<span class="cstat-no" title="statement not covered" >        res.status(result.errorCode).send(result.error);</span>
+    validator.validateBookId(req.params.bookId, function(bookResult) {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (bookResult.bookID &amp;&amp; bookResult.err === '') {
+        bookPersistence.GetBookByID(req.params.bookId, function(result) {
+          <span class="missing-if-branch" title="if path not taken" >I</span>if (result.error) {
+<span class="cstat-no" title="statement not covered" >            res.status(result.errorCode).send(result.error);</span>
+          }
+          else {
+            req.book = result.data;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (process.env.ENV === 'Test') {
+              next();
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >              if (req.sessionuserid) {</span>
+<span class="cstat-no" title="statement not covered" >                checkIfBookAddedByUser({</span>
+                  books: [ req.book ],
+                  userid: req.sessionuserid,
+                }).then((response) =&gt; {
+<span class="cstat-no" title="statement not covered" >                  req.book = response[0];</span>
+<span class="cstat-no" title="statement not covered" >                  next();</span>
+                });
+              }
+            }
+          }
+        });
       }
       else {
-        req.book = result.data;
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (process.env.ENV === 'Test') {
-          next();
-        }
-        else {
-<span class="cstat-no" title="statement not covered" >          if (req.sessionuserid) {</span>
-<span class="cstat-no" title="statement not covered" >            checkIfBookAddedByUser({</span>
-              books: [ req.book ],
-              userid: req.sessionuserid,
-            }).then((response) =&gt; {
-<span class="cstat-no" title="statement not covered" >              req.book = response[0];</span>
-<span class="cstat-no" title="statement not covered" >              next();</span>
-            });
-          }
-        }
-&nbsp;
+<span class="cstat-no" title="statement not covered" >        res.status(HttpStatus.BAD_REQUEST).send(bookResult.err);</span>
       }
     });
-&nbsp;
   }
   function getAll(req, res) {
     bookPersistence.SearchBooks(req.query, function (results) {
@@ -715,7 +736,7 @@ module.exports = bookController;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 25 2018 11:09:05 GMT+0530 (IST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 25 2018 11:25:42 GMT+0530 (IST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
