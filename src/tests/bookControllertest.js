@@ -5,7 +5,7 @@ const errorCode = require('../config/errorcodes');
 const HttpStatus = require('http-status-codes');
 
 const Book = require('../../models/bookModel.js');
-const bookController = require('../controllers/bookController')(Book);
+const bookController = require('../controllers/bookController')();
 let saveMock;
 
 describe('Book App Controller Tests', () => {
@@ -30,6 +30,7 @@ describe('Book App Controller Tests', () => {
       res.send.calledWith(errorCode.TitleRequired).should.equal(true);
     });
   });
+ 
   describe('Patch', () => {
     beforeEach((done) => {
       saveMock = sinon.stub(Book.prototype, 'save');

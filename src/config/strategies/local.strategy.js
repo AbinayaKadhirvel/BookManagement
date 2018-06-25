@@ -2,8 +2,16 @@ const passport = require('passport');
 const debug = require('debug')('app:local.strategy');
 const { Strategy } = require('passport-local');
 const mongoose = require('mongoose');
+let options = {
+  keepAlive: 1, connectTimeoutMS: 30000, reconnectTries: 30, reconnectInterval: 5000,
+};
+if (process.env.ENV === 'Test') {
+  const db = mongoose.connect('mongodb://localhost/libraryAppTest', options);
+}
+else {
+  const db = mongoose.connect('mongodb://localhost/libraryApp', options);
+}
 
-const db = mongoose.connect('mongodb://localhost/libraryApp');
 const User = require('../../../models/libraryUserModel.js');
 
 module.exports = function localStrategy() {

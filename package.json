@@ -5,7 +5,6 @@
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "chalk": "^2.4.1",
-    "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "^1.4.3",
     "debug": "^3.1.0",
     "ejs": "^2.6.1",
@@ -51,6 +50,7 @@
   "devDependencies": {
     "boolbase": "^1.0.0",
     "bootstrap": "^3.3.7",
+    "cheerio": "^1.0.0-rc.2",
     "css-select": "^2.0.0",
     "css-what": "^2.1.0",
     "eslint-config-airbnb-base": "^12.1.0",

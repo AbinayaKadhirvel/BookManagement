@@ -16,9 +16,10 @@ const port = process.env.PORT || 3000;
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerConfig = readYaml.sync(path.resolve(__dirname, './api/swagger/swagger.yaml'));
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
-app.use(morgan('combined'));
+if (process.env.ENV !== 'Test') {
+  app.use(morgan('combined'));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

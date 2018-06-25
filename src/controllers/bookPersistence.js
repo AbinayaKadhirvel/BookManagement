@@ -2,8 +2,6 @@ const HttpStatus = require('http-status-codes');
 const debug = require('debug')('app:bookPersistence');
 const errorCode = require('../config/errorcodes');
 const faker = require('faker');
-
-//const db = mongoose.connect('mongodb://localhost/libraryApp');
 const Book = require('../../models/bookModel.js');
 
 module.exports = {
@@ -39,7 +37,7 @@ module.exports = {
     }
   },
   SearchBooks: (searchQuery, callback) => {
-   
+
     debug(searchQuery);
     callback = callback || (() => {});
     let searchby = searchQuery.searchby;

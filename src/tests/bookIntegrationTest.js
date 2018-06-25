@@ -1,3 +1,4 @@
+process.env.ENV = 'Test';
 const request = require('supertest');
 const app = require('../../app');
 const mongoose = require('mongoose');
@@ -8,7 +9,8 @@ const should = require('should');
 const chaiHttp = require('chai-http');
 const errorCode = require('../config/errorcodes');
 const HttpStatus = require('http-status-codes');
-//const Book = require('../../models/bookModel.js');
+const Book = mongoose.model('Book');
+const User = mongoose.model('libraryUser');
 
 
 let bookid;
@@ -16,32 +18,63 @@ chai.use(chaiHttp);
 
 const expect = chai.expect;
 
-const Book = mongoose.model('Book');
-
 const agent = request.agent(app);
+const usertocreate = new User({
+  username: 'TestUser',
+  password: 'Test123',
+});
+const newBook = new Book({
+  author: 'New Author',
+  title: 'New book',
+  genre: 'Comedy',
+});
+let authenticatedUser;
 after(function() {
+  User.findOneAndRemove({ username: usertocreate.username }, (err, result) => {
+    Book.remove().exec();
+    mongoose.connection.close(function(){
+      done();
+    });
+  });
   // runs after all tests in this block
-  mongoose.connection.close(function(){
+
+});
+before((done) => {
+  Book.remove().exec();
+  usertocreate.save((err, createdUser) => {
+    authenticatedUser = createdUser;
     done();
   });
-});
 
-beforeEach((done) => {
-  Book.remove().exec();
-  const newBook = new Book({ author: 'New Author', title: 'New book', genre: 'Comedy' });
-  newBook.save((err, book) => {
-    if (err) {
-      debug(err);
-    }
-    else {
-      bookid = book._id;
-      done();
-    }
-  });
 });
 
 
 describe('User Crud Test', () => {
+
+  beforeEach((done) => {
+
+    newBook.save((err, book) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        bookid = book._id;
+        done();
+
+      }
+    });
+  });
+  it('Should render Signin page for root access', (done) => {
+    agent.get('/')
+      .expect(HttpStatus.OK)
+      .end((err, results) => {
+        expect(results).to.be.html;
+        const $ = cheerio.load(results.text, { useHtmlParser2: true });
+        let header = $('h1').text();
+        header.should.equal('Sign In');
+        done();
+      });
+  }).timeout(5000);
   it('Should search for a book which is not listed', (done) => {
 
     agent.get('/books')
@@ -62,12 +95,11 @@ describe('User Crud Test', () => {
         .query({ searchby: 'title', searchterm: 'new' })
         .expect(HttpStatus.OK)
         .end((err, results) => {
-
-
           expect(results).to.be.html;
           const $ = cheerio.load(results.text);
           let resultbookid = $('#bookid').attr('value');
           resultbookid.should.equal(bookid.toString());
+
           done();
         });
     }
@@ -101,17 +133,7 @@ describe('User Crud Test', () => {
       });
   }).timeout(5000);
 
-  it('Should delete the book added', (done) => {
 
-    agent.post('/books/' + bookid)
-      .send({
-        _method: 'DELETE',
-      })
-      .expect(HttpStatus.NO_CONTENT)
-      .end(() => {
-        done();
-      });
-  }).timeout(5000);
 
   it('List the single book requested', (done) => {
 
@@ -128,7 +150,6 @@ describe('User Crud Test', () => {
   }).timeout(5000);
 
   it('Should allow a book to be added', (done) => {
-
     const newBook = { author: 'New Author', title: 'New book', genre: 'Comedy' };
 
     agent.post('/books')
@@ -140,4 +161,15 @@ describe('User Crud Test', () => {
         done();
       });
   });
+  it('Should delete the book added', (done) => {
+
+    agent.post('/books/' + bookid)
+      .send({
+        _method: 'DELETE',
+      })
+      .expect(HttpStatus.NO_CONTENT)
+      .end(() => {
+        done();
+      });
+  }).timeout(5000);
 });

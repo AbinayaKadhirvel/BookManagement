@@ -1,3 +1,4 @@
+process.env.ENV = 'Test';
 const request = require('supertest');
 const app = require('../../app');
 const mongoose = require('mongoose');
@@ -19,27 +20,27 @@ const Book = mongoose.model('Book');
 const agent = request.agent(app);
 after(function() {
   // runs after all tests in this block
-  mongoose.connection.close(function(){
+  mongoose.connection.close(function() {
     done();
   });
 });
 
-beforeEach((done) => {
-  Book.remove().exec();
-  const newBook = new Book({ author: 'New Author', title: 'New book', genre: 'Comedy' });
-  newBook.save((err, book) => {
-    if (err) {
-      debug(err);
-    }
-    else {
-      bookid = book._id;
-      done();
-    }
-  });
-});
 
 
 describe('User Crud Test for BookAPI', () => {
+  beforeEach((done) => {
+    Book.remove().exec();
+    const newBook = new Book({ author: 'New Author', title: 'New book', genre: 'Comedy' });
+    newBook.save((err, book) => {
+      if (err) {
+        debug(err);
+      }
+      else {
+        bookid = book._id;
+        done();
+      }
+    });
+  });
   it('Should search for a book which is not listed', (done) => {
 
     agent.get('/bookAPI')
@@ -74,6 +75,7 @@ describe('User Crud Test for BookAPI', () => {
   }).timeout(5000);
 
   it('Should put book', (done) => {
+
     agent.put('/bookAPI/' + bookid)
       .send({
         author: 'New AuthorPut',
@@ -88,14 +90,7 @@ describe('User Crud Test for BookAPI', () => {
       });
   }).timeout(5000);
 
-  it('Should delete the book added', (done) => {
-
-    agent.delete('/bookAPI/' + bookid)
-      .expect(HttpStatus.NO_CONTENT)
-      .end(() => {
-        done();
-      });
-  }).timeout(5000);
+  
 
   it('List the single book requested', (done) => {
 
@@ -132,4 +127,12 @@ describe('User Crud Test for BookAPI', () => {
         done();
       });
   });
+  it('Should delete the book added', (done) => {
+
+    agent.delete('/bookAPI/' + bookid)
+      .expect(HttpStatus.NO_CONTENT)
+      .end(() => {
+        done();
+      });
+  }).timeout(5000);
 });

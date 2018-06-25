@@ -3,7 +3,6 @@ const HttpStatus = require('http-status-codes');
 const debug = require('debug')('app:bookController');
 const errorCode = require('../config/errorcodes');
 const bookPersistence = require('./bookPersistence');
-//const db = mongoose.connect('mongodb://localhost/libraryApp');
 const Book = require('../../models/bookModel.js');
 const nav = [
   { link: '/books?filteruserbooks=1', title: 'My Subscribed Books' },
@@ -11,21 +10,26 @@ const nav = [
 const genrelist = require('../config/genrelist');
 function bookController() {
   function middleware(req, res, next) {
+
     bookPersistence.GetBookByID(req.params.bookId, function(result) {
       if (result.error) {
         res.status(result.errorCode).send(result.error);
       }
       else {
         req.book = result.data;
-        if (req.sessionuserid) {
-          checkIfBookAddedByUser({
-            books: [ req.book ],
-            userid: req.sessionuserid,
-          }).then((response) => {
-
-            req.book = response[0];
-            next();
-          });
+        if (process.env.ENV === 'Test') {
+          next();
+        }
+        else {
+          if (req.sessionuserid) {
+            checkIfBookAddedByUser({
+              books: [ req.book ],
+              userid: req.sessionuserid,
+            }).then((response) => {
+              req.book = response[0];
+              next();
+            });
+          }
         }
 
       }
@@ -175,7 +179,7 @@ function bookController() {
     }
   }
   checkIfBookAddedByUser =  (params) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const User = require('../../models/libraryUserModel.js');
       User.findById(params.userid, (err, user) => {
         if (err) {

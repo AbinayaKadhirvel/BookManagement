@@ -50,7 +50,7 @@ function loadData() {
   User.remove().exec();
   console.log('Debig');
   books.forEach(function(element) {
-    console.log('Book : ' + element);
+    console.log('Book : ' + element.title);
     bookservice.getBookById(element.bookId).then(function (results) {
       console.log('Got description of ' + element.title);
       element.description = results.description;
