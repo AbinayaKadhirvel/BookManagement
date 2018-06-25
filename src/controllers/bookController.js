@@ -1,9 +1,8 @@
-//const mongoose = require('mongoose');
+
 const HttpStatus = require('http-status-codes');
 const debug = require('debug')('app:bookController');
 const errorCode = require('../config/errorcodes');
 const bookPersistence = require('./bookPersistence');
-
 const validator = require('../validator/bookValidator');
 
 const Book = require('../../models/bookModel.js');
