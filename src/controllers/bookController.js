@@ -186,7 +186,7 @@ function bookController() {
     }
   }
   checkIfBookAddedByUser =  (params) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const User = require('../../models/libraryUserModel.js');
       User.findById(params.userid, (err, user) => {
         if (err) {
@@ -223,6 +223,7 @@ function bookController() {
     addNewBook,
     updateOneBook,
     deleteBook,
+    checkIfBookAddedByUser,
   };
 }
 

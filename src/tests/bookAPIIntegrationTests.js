@@ -90,7 +90,8 @@ describe('User Crud Test for BookAPI', () => {
       });
   }).timeout(5000);
 
-  
+
+
 
   it('List the single book requested', (done) => {
 
@@ -127,6 +128,20 @@ describe('User Crud Test for BookAPI', () => {
         done();
       });
   });
+  it('should allow patch- edit single', (done) => {
+    agent.patch('/bookAPI/' + bookid)
+      .send({
+        author: 'New AuthorPatch',
+        title: 'New bookPatch',
+        genre: 'Comedy',
+      })
+      .expect(HttpStatus.OK)
+      .end((err, results) => {
+        expect(results).to.be.json;
+        expect(results.body).to.have.property('title', 'New bookPatch');
+        done();
+      });
+  }).timeout(5000);
   it('Should delete the book added', (done) => {
 
     agent.delete('/bookAPI/' + bookid)

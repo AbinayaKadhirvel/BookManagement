@@ -64,18 +64,17 @@ function authController() {
     });
   }
   function addbooktouser (req, res) {
-    debug(req.query);
     if (!req.query.bookid) {
-      res.status(HttpStatus.BAD_REQUEST).send(errorCode.NoBookRequested);
+      res.status(HttpStatus.BAD_REQUEST);
+      res.send(errorCode.NoBookRequested);
     }
-    //res.status(200).send();
-    if (req.session && req.session.passport && req.session.passport.user && req.session.passport.user._id) {
+    else if (req.session && req.session.passport && req.session.passport.user && req.session.passport.user._id) {
       userid = req.session.passport.user._id;
-      debug(userid);
       User.findById(userid, (err, user) => {
         if (err) {
           debug(err);
-          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(HttpStatus.DBError);
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+          res.send(errorCode.DBError);
         }
         else {
           if (user.books.indexOf(req.query.bookid) < 0) {
@@ -83,10 +82,12 @@ function authController() {
             user.save((err) => {
               if (err) {
                 debug(err);
-                res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(HttpStatus.DBError);
+                res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+                res.send(errorCode.DBError);
               }
               else {
-                res.status(HttpStatus.OK).send();
+                res.status(HttpStatus.OK);
+                res.send();
               }
             });
           }
@@ -98,8 +99,8 @@ function authController() {
       });
     }
     else {
-      debug('FAILED');
-      res.status(HttpStatus.BAD_REQUEST).send(errorCode.userSessionTimedout);
+      res.status(HttpStatus.BAD_REQUEST);
+      res.send(errorCode.userSessionTimedout);
     }
   }
   // Revealing Module Pattern
