@@ -66,6 +66,10 @@ which the following are implemented:
 istanbul cover node_modules/.bin/_mocha src/tests/*.js
 
 ```
+
+ATH032986:BookManagement kabinaya$ istanbul cover node_modules/.bin/_mocha src/tests/*.js
+
+
   Auth Controller Tests
     authenticateUser
       ✓ should not allow a user to be logged in if user credentials are wrong
@@ -73,6 +77,12 @@ istanbul cover node_modules/.bin/_mocha src/tests/*.js
     addNewUser
       ✓ should not allow a user to be created if user already exists
       ✓ should allow a user to be created if user not already exists
+    addbooktouser
+      ✓ Should render bad request if bookid is not passed
+      ✓ Should render bad request if usersession is not active
+      ✓ Should render throw DB error
+      ✓ Should render throw DB error
+      ✓ Should add Book to user
     signInPage
       ✓ should render index page
     signUpPage
@@ -86,11 +96,16 @@ istanbul cover node_modules/.bin/_mocha src/tests/*.js
     ✓ List the single book requested
     ✓ Should allow a book to be added
     ✓ Should not allow a book to be added if title is missing
+null
+    ✓ should allow patch- edit single
     ✓ Should delete the book added
 
   Book App Controller Tests
     Post
       ✓ should not allow a empty name on post
+    checkIfBookAddedByUser
+      ✓ Check if books added by user
+      ✓ Check if books added by users are filtered
     Patch
       ✓ should allow patch- edit single
 
@@ -105,7 +120,7 @@ istanbul cover node_modules/.bin/_mocha src/tests/*.js
     ✓ Should delete the book added
 
 
-  24 passing (324ms)
+  32 passing (273ms)
 
 =============================================================================
 Writing coverage object [/Users/kabinaya/Documents/BookManagement/BookManagement/coverage/coverage.json]
@@ -113,10 +128,10 @@ Writing coverage reports at [/Users/kabinaya/Documents/BookManagement/BookManage
 =============================================================================
 
 =============================== Coverage summary ===============================
-Statements   : 74.36% ( 290/390 )
-Branches     : 47.41% ( 64/135 )
-Functions    : 89.47% ( 34/38 )
-Lines        : 74.36% ( 290/390 )
+Statements   : 84.48% ( 332/393 )
+Branches     : 62.22% ( 84/135 )
+Functions    : 94.74% ( 36/38 )
+Lines        : 84.48% ( 332/393 )
 ================================================================================
 
 ```
