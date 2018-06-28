@@ -4,18 +4,19 @@ const mongoose = require('mongoose');
 const HttpStatus = require('http-status-codes');
 const errorCode = require('../config/errorcodes');
 const User = require('../../models/libraryUserModel.js');
-let testusername = 'TestUser';
 const authController = require('../controllers/authController');
+
+let testusername = 'TestUser';
 let findOneMock;
 let saveMock;
 const { signUpPage, addNewUser, signInPage, authenticateUser, addbooktouser } = authController();
 describe('Auth Controller Tests', () => {
   describe('authenticateUser', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       findOneMock = sinon.stub(User, 'findOne');
       saveMock = sinon.stub(User.prototype, 'save');
     });
-    afterEach(function(){
+    afterEach(() => {
       findOneMock.restore();
       saveMock.restore();
     });
@@ -59,11 +60,11 @@ describe('Auth Controller Tests', () => {
     }).timeout(5000);
   });
   describe('addNewUser', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       findOneMock = sinon.stub(User, 'findOne');
       saveMock = sinon.stub(User.prototype, 'save');
     });
-    afterEach(function(){
+    afterEach(() => {
       findOneMock.restore();
       saveMock.restore();
     });
@@ -102,11 +103,11 @@ describe('Auth Controller Tests', () => {
     }).timeout(5000);
   });
   describe('addbooktouser', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       findByIDMock = sinon.stub(User, 'findById');
       saveMock = sinon.stub(User.prototype, 'save');
     });
-    afterEach(function(){
+    afterEach(() => {
       findByIDMock.restore();
       saveMock.restore();
     });
@@ -162,7 +163,6 @@ describe('Auth Controller Tests', () => {
       addbooktouser(req, res);
       res.status.calledWith(HttpStatus.INTERNAL_SERVER_ERROR);
       res.send.calledWith(errorCode.DBError);
-     
       done();
     });
     it('Should render throw DB error', (done) => {

@@ -46,7 +46,7 @@ function authController() {
   }
 
   function authenticateUser(req, res) {
-    debug('here');
+    console.log('here');
     query = { username: req.body.username };
     User.findOne(query, (err, user) => {
       if (user && user.password === req.body.password) {

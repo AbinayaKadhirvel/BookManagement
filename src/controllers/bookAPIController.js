@@ -7,9 +7,9 @@ const validator = require('../validator/bookValidator');
 
 function bookAPIController() {
   function middleware(req, res, next) {
-    validator.validateBookId(req.params.bookId, function(bookResult) {
+    validator.validateBookId(req.params.bookId, bookResult => {
       if (bookResult.bookID && bookResult.err === '') {
-        bookPersistence.GetBookByID(req.params.bookId, function(result) {
+        bookPersistence.GetBookByID(req.params.bookId, result => {
           if (result.error) {
             res.status(result.errorCode).send(result.error);
           }
@@ -25,7 +25,7 @@ function bookAPIController() {
     });
   }
   function getAll(req, res) {
-    bookPersistence.SearchBooks(req.query, function (results) {
+    bookPersistence.SearchBooks(req.query, results => {
       if (results.errorCode === HttpStatus.INTERNAL_SERVER_ERROR) {
         res.status(result.errorCode).send(result.error);
       }
